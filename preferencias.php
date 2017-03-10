@@ -34,6 +34,52 @@
         $html_zona_horaria = '';
         
         $html_span_mensajes = '';
+        
+        /*
+        * Comprobación de si existen valores ya guardados en la sesión, pero en
+        * otro momento anterior, y si tiene datos guardados, los cargamos en el
+        * formulario como preferencias por defecto.
+        */
+        if (isset($_SESSION['idioma']) && isset($_SESSION['pref_tipo_perfil'])
+                && isset($_SESSION['pref_zona_horaria'])) {
+            
+            $html_span_mensajes = 'Información de sesión encontrada.';
+            
+            /*
+             * Preparo la opción título del select del form, sin selected.
+             */
+            $html_idioma = "<option disabled hidden>Seleccionar idioma...</option>";
+            $html_tipo_perfil = "<option disabled hidden>Seleccionar tipo perfil...</option>";
+            $html_zona_horaria = "<option disabled hidden>Seleccionar zona horaria...</option>";
+            
+            /*
+             * Con estos bucles genero el resto de los select, poniendo el atributo
+             * select al que coincida con lo guardado en la sesión para mostrar lo
+             * que el usuario eligió en su momento.
+             */
+            foreach($idioma as $valor){
+                if($_SESSION['pref_idioma'] == $valor){
+                    $html_idioma .= "\n<option value=\"$valor\" selected>$valor</option>";
+                } else {
+                    $html_idioma .= "\n<option value=\"$valor\">$valor</option>";
+                }
+
+            }
+            foreach($tipo_perfil as $valor){
+                if($_SESSION['pref_tipo_perfil'] == $valor){
+                    $html_tipo_perfil .= "\n<option value=\"$valor\" selected>$valor</option>";
+                } else {
+                    $html_tipo_perfil .= "\n<option value=\"$valor\">$valor</option>";
+                }
+            }
+            foreach($zona_horaria as $valor){
+                if($_SESSION['pref_zona_horaria'] == $valor){
+                    $html_zona_horaria .= "\n<option value=\"$valor\" selected>$valor</option>";
+                } else {
+                    $html_zona_horaria .= "\n<option value=\"$valor\">$valor</option>";
+                }
+            }                
+            }        
 
         /*
          * Comprobamos si el formulario ya ha enviado datos al servidor. En caso
@@ -88,50 +134,9 @@
                     $html_zona_horaria .= "\n<option value=\"$valor\">$valor</option>";
                 }
             }
-            } elseif (isset($_SESSION['idioma']) && isset($_SESSION['pref_tipo_perfil'])
-                && isset($_SESSION['pref_zona_horaria'])) {
-            /*
-             * Comprobación de si existen valores ya guardadas en la sesión, pero en
-             * otro momento anterior, y si tiene datos guardados, los cargamos en el
-             * formulario como preferencias por defecto.
-             */            
-            $html_span_mensajes = 'Información de sesión encontrada.';
-            
-            /*
-             * Preparo la opción título del select del form, sin selected.
-             */
-            $html_idioma = "<option disabled hidden>Seleccionar idioma...</option>";
-            $html_tipo_perfil = "<option disabled hidden>Seleccionar tipo perfil...</option>";
-            $html_zona_horaria = "<option disabled hidden>Seleccionar zona horaria...</option>";
-            
-            /*
-             * Con estos bucles genero el resto de los select, poniendo el atributo
-             * select al que coincida con lo guardado en la sesión para mostrar lo
-             * que el usuario eligió en su momento.
-             */
-            foreach($idioma as $valor){
-                if($_SESSION['pref_idioma'] == $valor){
-                    $html_idioma .= "\n<option value=\"$valor\" selected>$valor</option>";
-                } else {
-                    $html_idioma .= "\n<option value=\"$valor\">$valor</option>";
-                }
-
             }
-            foreach($tipo_perfil as $valor){
-                if($_SESSION['pref_tipo_perfil'] == $valor){
-                    $html_tipo_perfil .= "\n<option value=\"$valor\" selected>$valor</option>";
-                } else {
-                    $html_tipo_perfil .= "\n<option value=\"$valor\">$valor</option>";
-                }
-            }
-            foreach($zona_horaria as $valor){
-                if($_SESSION['pref_zona_horaria'] == $valor){
-                    $html_zona_horaria .= "\n<option value=\"$valor\" selected>$valor</option>";
-                } else {
-                    $html_zona_horaria .= "\n<option value=\"$valor\">$valor</option>";
-                }
-            }                
-            } else {
+            
+            if(!isset($_SESSION) && !isset($_POST)){
             /*
              * Si el formulario aún no ha sido cumplimentado reseteamos los valores
              * y advertimos de que no existen preferencias.
