@@ -143,7 +143,7 @@
             }
             }
             
-            if(!isset($_SESSION) && !isset($_POST)){
+            if(!isset($_SESSION)){
             /*
              * Si el formulario aún no ha sido cumplimentado reseteamos los valores
              * y advertimos de que no existen preferencias.
