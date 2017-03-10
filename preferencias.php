@@ -35,6 +35,13 @@
         
         $html_span_mensajes = '';
         
+        $res_session = (isset($_SESSION['idioma']) && isset($_SESSION['pref_tipo_perfil']) && isset($_SESSION['pref_zona_horaria']));
+        var_dump($res_session);
+        
+        $res_post = (isset($_POST['idioma']) && isset($_POST['tipo_perfil']) && isset($_POST['zona_horaria']));
+        var_dump($res_post);
+        
+        
         /*
         * Comprobación de si existen valores ya guardados en la sesión, pero en
         * otro momento anterior, y si tiene datos guardados, los cargamos en el
